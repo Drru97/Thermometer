@@ -5,6 +5,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using LiveCharts;
+using LiveCharts.Defaults;
+using LiveCharts.Wpf;
 using Thermometer.Annotations;
 
 namespace Thermometer
@@ -30,8 +34,14 @@ namespace Thermometer
 
         public List<KeyValuePair<int, int>> Data { get; set; } = new List<KeyValuePair<int, int>>();
 
-        public List<int> Ints { get; set; } = new List<int> { 3, 6, 2, 5, 5 };
-        public List<int> Ints2 { get; set; } = new List<int> { 3, 7, 2, 1, 6 };
+        public SeriesCollection TemperatureSeries { get; set; } = new SeriesCollection
+        {
+            new LineSeries
+            {
+                AreaLimit = -10,
+                Values = new ChartValues<ObservableValue>()
+            }
+        };
 
         private RelayCommand _connectCommand;
         private RelayCommand _disconnectCommand;
@@ -99,6 +109,19 @@ namespace Thermometer
                                    Maximum = Repository.Maximun;
                                    Average = Repository.Average;
                                    Current = temp;
+
+                                   Application.Current.Dispatcher.Invoke(() =>
+                                   {
+                                       var temperature = MeasurementRepository.Measurements
+                                           .LastOrDefault()?.Temperature;
+                                       if (temperature != null)
+                                           TemperatureSeries[0].Values
+                                               .Add(new ObservableValue((double)temperature));
+                                       //   Thread.Sleep(1000);
+                                       if (TemperatureSeries[0].Values.Count > 30)
+                                           TemperatureSeries[0].Values.RemoveAt(0);
+                                   });
+
                                }
                            }, _tokenSource.Token);
                            if (_readDataTask.Status == TaskStatus.Created)
@@ -208,10 +231,6 @@ namespace Thermometer
             SelectedPort = task.Result.FirstOrDefault();
             Repository = new MeasurementRepository();
             _token = _tokenSource.Token;
-
-
-            Data.Add(new KeyValuePair<int, int>(2, 5));
-            Data.Add(new KeyValuePair<int, int>(6, 44));
         }
 
         [NotifyPropertyChangedInvocator]
