@@ -33,9 +33,8 @@
                 <Button Command="{Binding StopCommand}" FontSize="16" Margin="0,10,0,0">Stop</Button>
                 <Button FontSize="16" Margin="0,10,0,0">Reset</Button>
             </StackPanel>
-            <wpf:CartesianChart Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Series="{Binding TemperatureSeries}" Hoverable="False" DataTooltip="{x:Null}">
+            <wpf:CartesianChart Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Series="{Binding TemperatureSeries}" Hoverable="False" DataTooltip="{x:Null}" Margin="10,10,10,10">
                 <wpf:CartesianChart.AxisX>
-                    <!--a small visual improvement, lets hide the first points (x = 0, x=1) to get better animations-->
                     <wpf:Axis MinValue="0"></wpf:Axis>
                 </wpf:CartesianChart.AxisX>
             </wpf:CartesianChart>
