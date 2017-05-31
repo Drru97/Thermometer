@@ -33,10 +33,13 @@
                 <Button Command="{Binding StopCommand}" FontSize="16" Margin="0,10,0,0">Stop</Button>
                 <Button FontSize="16" Margin="0,10,0,0">Reset</Button>
             </StackPanel>
-            <wpf:CartesianChart Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Series="{Binding TemperatureSeries}" Hoverable="False" DataTooltip="{x:Null}" Margin="10,10,10,10">
+            <wpf:CartesianChart x:Name="Chart" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Series="{Binding TemperatureSeries}" Hoverable="False" DataTooltip="{x:Null}" Margin="10,10,10,10">
                 <wpf:CartesianChart.AxisX>
-                    <wpf:Axis MinValue="0"></wpf:Axis>
+                    <wpf:Axis x:Name="AxisX" MinValue="0"></wpf:Axis>
                 </wpf:CartesianChart.AxisX>
+                <wpf:CartesianChart.AxisY>
+                    <wpf:Axis x:Name="AxisY" MinValue="20" MaxValue="35"></wpf:Axis>
+                </wpf:CartesianChart.AxisY>
             </wpf:CartesianChart>
 
             <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="10,0,0,0">

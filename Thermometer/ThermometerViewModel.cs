@@ -100,6 +100,10 @@ namespace Thermometer
                                    }
                                    var temp = _reader.ReadValue();
 
+                                   // i dont know how to fix random unexpected values
+                                   // so added this line
+                                   if (!(temp > 10) || !(temp < 40)) continue;
+
                                    var measurement = new Measurement
                                    {
                                        DateAndTime = DateTime.Now,
@@ -119,8 +123,8 @@ namespace Thermometer
                                        if (temperature != null)
                                            TemperatureSeries[0].Values
                                                .Add(new ObservableValue((double)temperature));
-                                           //   Thread.Sleep(1000);
-                                           if (TemperatureSeries[0].Values.Count > 50)
+                                       //   Thread.Sleep(1000);
+                                       if (TemperatureSeries[0].Values.Count > 50)
                                            TemperatureSeries[0].Values.RemoveAt(0);
                                    });
                                }
