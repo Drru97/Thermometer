@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 
 namespace Thermometer
@@ -9,6 +10,11 @@ namespace Thermometer
 
         public static void Write(Measurement measurement)
         {
+            if (measurement == null)
+            {
+                throw new ArgumentNullException(nameof(measurement));
+            }
+
             using (var writer = new StreamWriter(_filename, true, Encoding.UTF8))
             {
                 writer.WriteLine($"{measurement.Temperature}\t{measurement.DateAndTime:HH:mm:ss}");
