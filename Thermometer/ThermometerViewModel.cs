@@ -99,6 +99,7 @@ namespace Thermometer
                                        }
                                    }
                                    var temp = _reader.ReadValue();
+
                                    var measurement = new Measurement
                                    {
                                        DateAndTime = DateTime.Now,
@@ -109,6 +110,7 @@ namespace Thermometer
                                    Maximum = Repository.Maximun;
                                    Average = Repository.Average;
                                    Current = temp;
+                                   FileWorker.Write(measurement);
 
                                    Application.Current.Dispatcher.Invoke(() =>
                                    {
@@ -117,11 +119,10 @@ namespace Thermometer
                                        if (temperature != null)
                                            TemperatureSeries[0].Values
                                                .Add(new ObservableValue((double)temperature));
-                                       //   Thread.Sleep(1000);
-                                       if (TemperatureSeries[0].Values.Count > 30)
+                                           //   Thread.Sleep(1000);
+                                           if (TemperatureSeries[0].Values.Count > 50)
                                            TemperatureSeries[0].Values.RemoveAt(0);
                                    });
-
                                }
                            }, _tokenSource.Token);
                            if (_readDataTask.Status == TaskStatus.Created)
